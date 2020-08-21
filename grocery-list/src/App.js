@@ -12,6 +12,7 @@ const combineItemName = (item) => {
 
 function App() {
   const [list, setList] = useState(initialList);
+  const [editable, setEditable] = useState(false);
 
   const addBanannasHandle = () => {
     let copyList = [...list];
@@ -37,14 +38,20 @@ function App() {
   };
 
   const removeItemHandler = (e) => {
-    let removable = e.target.getAttribute("name");
-    console.dir(e.target.name);
-    console.log("e.target.name", e.target.name);
-    console.log("removable", removable);
-    const filteredList = list.filter(
-      () => e.target.getAttribute("name") !== e.target.name
-    );
-    setList(list.filter((item) => item.name !== removable));
+    let name = e.target.getAttribute("name");
+    setList(list.filter((item) => item.name !== name));
+  };
+
+  const makeEditableHandler = (e) => {
+    setEditable(true);
+  };
+
+  const keyPressHandler = (e, index) => {
+    if (e.key === "Enter") {
+      setEditable(!editable);
+      const copyList = [...list];
+      copyList[index].itemName = e.target.value;
+    }
   };
 
   return (
@@ -56,8 +63,11 @@ function App() {
             <Item
               key={`${i}${value.unitSize}${value.unitType}${value.itemName}`}
               item={value}
-              name={value.itemName}
               onClick={removeItemHandler}
+              onDoubleClick={makeEditableHandler}
+              editable={editable}
+              onKeyPress={keyPressHandler}
+              index={i}
             ></Item>
           );
         })}
