@@ -5,11 +5,6 @@ import Item from "./components/item";
 
 const initialList = [];
 
-const combineItemName = (item) => {
-  item.name = `${item.sizeInt}${item.sizeType}${item.itemName}`;
-  return item;
-};
-
 function App() {
   const [list, setList] = useState(initialList);
   const [editable, setEditable] = useState(false);
@@ -21,10 +16,10 @@ function App() {
       quantity: 1,
       quantityType: "bunch",
     };
-    combineItemName(bananas);
     copyList.push(bananas);
     setList(copyList);
   };
+
   const addOrangesHandle = () => {
     let copyList = [...list];
     let oranges = {
@@ -32,14 +27,14 @@ function App() {
       quantity: 1,
       quantityType: "each",
     };
-    combineItemName(oranges);
     copyList.push(oranges);
     setList(copyList);
   };
 
-  const removeItemHandler = (e) => {
-    let name = e.target.getAttribute("name");
-    setList(list.filter((item) => item.name !== name));
+  const removeItemHandler = (e, index) => {
+    let copyList = [...list];
+    copyList.splice(index, 1);
+    setList(copyList);
   };
 
   const makeEditableHandler = (e) => {

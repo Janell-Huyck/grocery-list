@@ -46,7 +46,7 @@ function Item(props) {
       <button
         name={props.item.name}
         className="item-remove"
-        onClick={props.onClick}
+        onClick={(e) => props.onClick(e, props.index)}
       >
         Remove
       </button>
