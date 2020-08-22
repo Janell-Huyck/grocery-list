@@ -10,35 +10,35 @@ function Item(props) {
   return (
     <div className="item-style">
       <h3>
-        {/* examples: 3 each, 1 loaf, 1 dozen, 1 gallon */}
-        <div className="item-quantity" onDoubleClick={props.onDoubleClick}>
-          {props.item.quantity && (
-            <>
-              {props.item.quantity}{" "}
-              {props.item.quantityType && <>{props.item.quantityType}</>}
-            </>
-          )}
-        </div>
-
-        {/* examples: 14 oz. (can) - gets combined into the "name" feature   */}
-        <div className="item-size" onDoubleClick={props.onDoubleClick}>
-          {props.sizeInt && (
-            <>
-              {props.item.sizeInt} {props.item.sizeType}
-            </>
-          )}
-        </div>
-
-        {/* examples: "canned tomatoes"  "Trix cereal" "lunchmeat" */}
-        {props.editable ? (
+        {props.item.quantityEditable ? (
           <input
             type="text"
-            defaultValue={props.item.itemName}
-            onKeyPress={(e) => props.onKeyPress(e, props.index)}
+            defaultValue={props.item.quantity}
+            onKeyPress={(e) => props.onKeyPress(e, props.index, "quantity")}
           />
         ) : (
-          <div className="item-name" onDoubleClick={props.onDoubleClick}>
-            {props.item.itemName}
+          <div
+            className="item-quantity"
+            onDoubleClick={() => props.editQuantity(props.index)}
+          >
+            {props.item.quantity && <>{props.item.quantity}</>}
+            {!props.item.quantity && <>0</>}
+          </div>
+        )}
+
+        {props.item.nameEditable ? (
+          <input
+            type="text"
+            defaultValue={props.item.name}
+            onKeyPress={(e) => props.onKeyPress(e, props.index, "name")}
+          />
+        ) : (
+          <div
+            className="item-name"
+            onDoubleClick={() => props.editName(props.index)}
+          >
+            {props.item.name && <>{props.item.name}</>}
+            {!props.item.name && <>Enter Item</>}
           </div>
         )}
       </h3>
@@ -46,7 +46,7 @@ function Item(props) {
       <button
         name={props.item.name}
         className="item-remove"
-        onClick={(e) => props.onClick(e, props.index)}
+        onClick={(e) => props.removeItem(e, props.index)}
       >
         Remove
       </button>

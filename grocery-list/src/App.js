@@ -7,14 +7,12 @@ const initialList = [];
 
 function App() {
   const [list, setList] = useState(initialList);
-  const [editable, setEditable] = useState(false);
 
   const addBanannasHandle = () => {
     let copyList = [...list];
     let bananas = {
-      itemName: "bananas",
+      name: "bananas",
       quantity: 1,
-      quantityType: "bunch",
     };
     copyList.push(bananas);
     setList(copyList);
@@ -23,9 +21,8 @@ function App() {
   const addOrangesHandle = () => {
     let copyList = [...list];
     let oranges = {
-      itemName: "oranges",
+      name: "oranges",
       quantity: 1,
-      quantityType: "each",
     };
     copyList.push(oranges);
     setList(copyList);
@@ -37,15 +34,30 @@ function App() {
     setList(copyList);
   };
 
-  const makeEditableHandler = (e) => {
-    setEditable(true);
+  const toggleNameEdit = (index) => {
+    let copyList = [...list];
+    let targetItem = copyList[index];
+    targetItem.nameEditable = !targetItem.nameEditable;
+    setList(copyList);
   };
 
-  const keyPressHandler = (e, index) => {
+  const toggleQuantityEdit = (index) => {
+    let copyList = [...list];
+    let targetItem = copyList[index];
+    targetItem.quantityEditable = !targetItem.quantityEditable;
+    setList(copyList);
+  };
+
+  const keyPressHandler = (e, index, trait) => {
     if (e.key === "Enter") {
-      setEditable(!editable);
-      const copyList = [...list];
-      copyList[index].itemName = e.target.value;
+      if (trait === "name") {
+        toggleNameEdit(index);
+      } else if (trait === "quantity") {
+        toggleQuantityEdit(index);
+      }
+      let copyList = [...list];
+      copyList[index][trait] = e.target.value;
+      setList(copyList);
     }
   };
 
@@ -56,11 +68,11 @@ function App() {
         {list.map((value, i) => {
           return (
             <Item
-              key={`${i}${value.unitSize}${value.unitType}${value.itemName}`}
+              key={`${i}${value.name}`}
               item={value}
-              onClick={removeItemHandler}
-              onDoubleClick={makeEditableHandler}
-              editable={editable}
+              removeItem={removeItemHandler}
+              editName={toggleNameEdit}
+              editQuantity={toggleQuantityEdit}
               onKeyPress={keyPressHandler}
               index={i}
             ></Item>
