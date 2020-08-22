@@ -26,6 +26,12 @@ function useList(init) {
       targetItem[trait] = !targetItem[trait];
       setList(copyList);
     },
+    removePurchased() {
+      let copyList = list.filter(function (item) {
+        return !item.purchased;
+      });
+      setList(copyList);
+    },
   };
 }
 

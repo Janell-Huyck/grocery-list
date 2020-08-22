@@ -36,3 +36,57 @@
     transform: rotate(360deg);
   }
 }
+
+:root {
+  flex-grow: 1;
+}
+
+.item-style {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-wrap: break-word;
+  min-width: 0;
+  align-content: center;
+  justify-items: center;
+  justify-content: center;
+  border: 1px solid gray;
+}
+
+.item-quantity {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 5px;
+  min-width: 0;
+  text-align: center;
+  align-self: center;
+}
+
+.item-name {
+  display: flex;
+  flex-wrap: wrap;
+  text-overflow: ellipsis;
+  margin: 5px;
+  min-width: 0;
+  overflow-wrap: break-word;
+  align-self: center;
+}
+
+.name-text {
+  min-width: 0;
+  text-overflow: ellipsis;
+}
+
+.remove-button {
+  margin: 5px;
+  padding: 5px;
+}
+
+.edit-button {
+  margin: 5px;
+  padding: 5px;
+}
+
+.purchased {
+  text-decoration: line-through;
+}
