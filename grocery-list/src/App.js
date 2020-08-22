@@ -1,63 +1,47 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
+import useList from "./hooks/useList";
 
 import Item from "./components/item";
 
 const initialList = [];
 
 function App() {
-  const [list, setList] = useState(initialList);
+  const items = useList(initialList);
 
   const addBanannasHandle = () => {
-    let copyList = [...list];
     let bananas = {
       name: "bananas",
       quantity: 1,
     };
-    copyList.push(bananas);
-    setList(copyList);
+    items.addItem(bananas);
   };
 
   const addOrangesHandle = () => {
-    let copyList = [...list];
     let oranges = {
       name: "oranges",
       quantity: 1,
     };
-    copyList.push(oranges);
-    setList(copyList);
+    items.addItem(oranges);
   };
 
-  const removeItemHandler = (e, index) => {
-    let copyList = [...list];
-    copyList.splice(index, 1);
-    setList(copyList);
+  const removeItemHandler = (index) => {
+    items.removeItem(index);
   };
 
-  const toggleNameEdit = (index) => {
-    let copyList = [...list];
-    let targetItem = copyList[index];
-    targetItem.nameEditable = !targetItem.nameEditable;
-    setList(copyList);
-  };
-
-  const toggleQuantityEdit = (index) => {
-    let copyList = [...list];
-    let targetItem = copyList[index];
-    targetItem.quantityEditable = !targetItem.quantityEditable;
-    setList(copyList);
+  const toggleHandler = (index, trait) => {
+    items.toggle(index, trait);
   };
 
   const keyPressHandler = (e, index, trait) => {
     if (e.key === "Enter") {
+      let newValue = e.target.value;
       if (trait === "name") {
-        toggleNameEdit(index);
+        toggleHandler(index, "nameEditable");
       } else if (trait === "quantity") {
-        toggleQuantityEdit(index);
+        toggleHandler(index, "quantityEditable");
       }
-      let copyList = [...list];
-      copyList[index][trait] = e.target.value;
-      setList(copyList);
+      items.saveItem(index, trait, newValue);
     }
   };
 
@@ -65,14 +49,13 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h2>Grocery List</h2>
-        {list.map((value, i) => {
+        {items.list.map((value, i) => {
           return (
             <Item
               key={`${i}${value.name}`}
               item={value}
               removeItem={removeItemHandler}
-              editName={toggleNameEdit}
-              editQuantity={toggleQuantityEdit}
+              toggle={toggleHandler}
               onKeyPress={keyPressHandler}
               index={i}
             ></Item>

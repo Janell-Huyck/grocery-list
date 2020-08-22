@@ -19,7 +19,7 @@ function Item(props) {
         ) : (
           <div
             className="item-quantity"
-            onDoubleClick={() => props.editQuantity(props.index)}
+            onDoubleClick={() => props.toggle(props.index, "quantityEditable")}
           >
             {props.item.quantity && <>{props.item.quantity}</>}
             {!props.item.quantity && <>0</>}
@@ -35,7 +35,7 @@ function Item(props) {
         ) : (
           <div
             className="item-name"
-            onDoubleClick={() => props.editName(props.index)}
+            onDoubleClick={() => props.toggle(props.index, "nameEditable")}
           >
             {props.item.name && <>{props.item.name}</>}
             {!props.item.name && <>Enter Item</>}
@@ -46,7 +46,7 @@ function Item(props) {
       <button
         name={props.item.name}
         className="item-remove"
-        onClick={(e) => props.removeItem(e, props.index)}
+        onClick={(e) => props.removeItem(props.index)}
       >
         Remove
       </button>
