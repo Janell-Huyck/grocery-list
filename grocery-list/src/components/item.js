@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Item(props) {
@@ -30,7 +30,7 @@ function Item(props) {
           onDoubleClick={() => props.toggle(props.index, "quantityEditable")}
         >
           {props.item.quantity && <>{props.item.quantity}</>}
-          {!props.item.quantity && <>0</>}
+          {!props.item.quantity && <></>}
         </div>
       )}
 
